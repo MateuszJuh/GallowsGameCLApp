@@ -31,13 +31,16 @@ public class CommandLineInterface {//TODO CommandLineInterface
 
     private void startGame() {
         gallowsGame.startGame();
-        while (gallowsGame.getGameState() == GameState.IN_PROGRES) {
+        while (gallowsGame.getGameState() == GameState.IN_PROGRESS) {
             printGameInterface();
             getSingleLetter();
-            gallowsGame.setGameState(GameState.WON);
-            //gallowsGame.validateChar(getSingleLetter());
+            gallowsGame.makeGuess(getSingleLetter());
         }
-
+        if(gallowsGame.getGameState() == GameState.WON){
+            System.out.println("Win");
+        }else {
+            System.out.println("lost");
+        }
     }
 
     private void printGameInterface() {

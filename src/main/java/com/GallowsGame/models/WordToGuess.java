@@ -30,4 +30,12 @@ public class WordToGuess {
     public void setIsCharGuessed(boolean[] isCharGuessed) {
         this.isCharGuessed = isCharGuessed;
     }
+
+    public void checkMatches(char letter) {
+        for (int i = 0; i < chars.length; i++) {
+            if(chars[i] == letter){
+                isCharGuessed[i]=true;
+            }
+        }
+    }
 }

@@ -13,7 +13,7 @@ public class GallowsGame {//TODO GallowsGame
     public GallowsGame() {
         wordService = new WordService();
         attemptsLeft = 10;
-        gameState = GameState.IN_PROGRES;
+        gameState = GameState.IN_PROGRESS;
     }
 
     public void startGame(){
@@ -50,5 +50,18 @@ public class GallowsGame {//TODO GallowsGame
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
+    }
+
+    public void makeGuess(char letter) {
+        wordToGuess.checkMatches(letter);
+        gameState = GameState.WON;
+        for (boolean isGuessed: wordToGuess.getIsCharGuessed()) {
+            if(!isGuessed){
+                setGameState(GameState.IN_PROGRESS);
+            }
+        }
+        if(gameState!=GameState.WON && attemptsLeft==0){
+            gameState = GameState.LOST;
+        }
     }
 }
