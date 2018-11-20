@@ -7,33 +7,38 @@ import java.util.Scanner;
 
 public class CommandLineInterface {//TODO CommandLineInterface
     private GallowsGame gallowsGame;
-    private final Scanner scanner = new Scanner(System.in);
+    private Scanner scanner;
 
-    public CommandLineInterface() {
-        gallowsGame = new GallowsGame();
+    public CommandLineInterface(Scanner scanner) {
+        this.scanner = scanner;
     }
 
     public void printWelcome() {
-        System.out.println("Welcome to gallows game.\n s - to start game\n q - to quit");
-        String line = scanner.next();
-        char symbol = line.charAt(0);
-        switch (symbol) {
-            case 's':
-                startGame();
-                break;
-            case 'q':
-                scanner.close();
-                break;
-            default:
-                break;
+        System.out.println("Welcome to gallows game.");
+        boolean doAgain = true;
+        while(doAgain){
+            System.out.println("s - to start game\nq - to quit");
+            String next = scanner.nextLine();
+            char symbol = next.charAt(0);
+            switch (symbol) {
+                case 's':
+                    startGame();
+                    break;
+                case 'q':
+                    doAgain = false;
+                    break;
+                default:
+                    System.out.println("Invalid symbol");
+                    break;
+            }
         }
     }
 
     private void startGame() {
+        gallowsGame = new GallowsGame();
         gallowsGame.startGame();
         while (gallowsGame.getGameState() == GameState.IN_PROGRESS) {
             printGameInterface();
-            getSingleLetter();
             gallowsGame.makeGuess(getSingleLetter());
         }
         if(gallowsGame.getGameState() == GameState.WON){
@@ -52,21 +57,22 @@ public class CommandLineInterface {//TODO CommandLineInterface
                 System.out.print("_");
             }
         }
-        System.out.println("\nGuess another letter");
+        System.out.println("\nGuess letter");
     }
 
     private char getSingleLetter() {
         char guessedLetter = ' ';
         boolean isSingle = false;
-        do {
-            String next = scanner.next();
+        while(!isSingle) {
+            String next = scanner.nextLine();
+            next.replaceAll(" ", "");
             if (next.length() == 1) {
                 guessedLetter = next.charAt(0);
                 isSingle = true;
             } else {
                 System.out.println("Too many letters!");
             }
-        } while (!isSingle);
+        }
         return guessedLetter;
     }
 

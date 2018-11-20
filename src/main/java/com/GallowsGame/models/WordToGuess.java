@@ -31,11 +31,14 @@ public class WordToGuess {
         this.isCharGuessed = isCharGuessed;
     }
 
-    public void checkMatches(char letter) {
+    public boolean isAnyMatch(char letter) {
+        boolean isMatched = false;
         for (int i = 0; i < chars.length; i++) {
             if(chars[i] == letter){
+                isMatched = true;
                 isCharGuessed[i]=true;
             }
         }
+        return isMatched;
     }
 }

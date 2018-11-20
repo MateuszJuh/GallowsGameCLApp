@@ -53,7 +53,9 @@ public class GallowsGame {//TODO GallowsGame
     }
 
     public void makeGuess(char letter) {
-        wordToGuess.checkMatches(letter);
+        if(!wordToGuess.isAnyMatch(letter)){
+            attemptsLeft--;
+        }
         gameState = GameState.WON;
         for (boolean isGuessed: wordToGuess.getIsCharGuessed()) {
             if(!isGuessed){
