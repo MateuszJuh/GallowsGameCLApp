@@ -32,7 +32,7 @@ public class WordService {
         return word;
     }
 
-    private String getRandomWordJson() {
+    public String getRandomWordJson() {
         StringBuilder response = new StringBuilder();
         try {
             URL url = new URL(RANDOM_WORD_URL);
