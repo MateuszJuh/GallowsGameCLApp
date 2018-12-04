@@ -8,7 +8,7 @@ public class GallowsGame {//TODO GallowsGame
     private int attemptsLeft;
     private WordToGuess wordToGuess;
     private WordService wordService;
-    GameState gameState;
+    private GameState gameState;
 
     public GallowsGame() {
         wordService = new WordService();

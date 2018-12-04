@@ -5,7 +5,7 @@ import com.GallowsGame.models.GameState;
 
 import java.util.Scanner;
 
-public class CommandLineInterface {//TODO CommandLineInterface
+public class CommandLineInterface {
     private GallowsGame gallowsGame;
     private Scanner scanner;
 
