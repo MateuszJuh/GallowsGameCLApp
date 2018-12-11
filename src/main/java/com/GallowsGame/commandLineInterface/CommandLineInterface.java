@@ -2,12 +2,18 @@ package com.GallowsGame.commandLineInterface;
 
 import com.GallowsGame.game.GallowsGame;
 import com.GallowsGame.models.GameState;
+import com.GallowsGame.models.Player;
+import com.GallowsGame.models.UserData;
+import com.GallowsGame.services.PlayerService;
 
 import java.util.Scanner;
 
 public class CommandLineInterface {
     private GallowsGame gallowsGame;
     private Scanner scanner;
+    private Player player;
+    private boolean isLogged = false;
+    private PlayerService playerService;
 
     public CommandLineInterface(Scanner scanner) {
         this.scanner = scanner;
@@ -26,6 +32,9 @@ public class CommandLineInterface {
                     break;
                 case 'q':
                     doAgain = false;
+                    break;
+                case 'l':
+                    login();
                     break;
                 default:
                     System.out.println("Invalid symbol");
@@ -74,6 +83,22 @@ public class CommandLineInterface {
             }
         }
         return guessedLetter;
+    }
+
+    private void login(){
+        if(playerService == null){
+            playerService = new PlayerService();
+        }
+        playerService.login(loadUsernameAndPasswordToHash());
+    }
+
+    private UserData loadUsernameAndPasswordToHash() {
+        UserData userData = new UserData();
+        System.out.println("insert username:");
+        userData.setUsername(scanner.nextLine());
+        System.out.println("insert password");
+        userData.setPassword(scanner.nextLine());
+        return userData;
     }
 
 

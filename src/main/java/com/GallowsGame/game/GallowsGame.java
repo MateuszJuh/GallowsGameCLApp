@@ -4,7 +4,7 @@ import com.GallowsGame.models.GameState;
 import com.GallowsGame.models.WordToGuess;
 import com.GallowsGame.services.WordService;
 
-public class GallowsGame {//TODO GallowsGame
+public class GallowsGame {
     private int attemptsLeft;
     private WordToGuess wordToGuess;
     private WordService wordService;
