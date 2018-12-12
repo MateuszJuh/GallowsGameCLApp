@@ -11,7 +11,6 @@ import java.util.Scanner;
 public class CommandLineInterface {
     private GallowsGame gallowsGame;
     private Scanner scanner;
-    private Player player;
     private boolean isLogged = false;
     private PlayerService playerService;
 
@@ -20,7 +19,7 @@ public class CommandLineInterface {
     }
 
     public void printWelcome() {
-        System.out.println("Welcome to gallows game.");
+        System.out.println("Welcome to gallows game.\nyou can login with - l\nand register - r");
         boolean doAgain = true;
         while(doAgain){
             System.out.println("s - to start game\nq - to quit");
@@ -35,6 +34,9 @@ public class CommandLineInterface {
                     break;
                 case 'l':
                     login();
+                    break;
+                case 'r':
+                    register();
                     break;
                 default:
                     System.out.println("Invalid symbol");
@@ -86,20 +88,60 @@ public class CommandLineInterface {
     }
 
     private void login(){
-        if(playerService == null){
-            playerService = new PlayerService();
+        initPlayerService();
+        boolean login = playerService.login(getUsernameAndPasswordToHash());
+        if(login){
+            isLogged = true;
+            System.out.println("logged in");
+        }else {
+            System.out.println("authentication failed");
         }
-        playerService.login(loadUsernameAndPasswordToHash());
     }
 
-    private UserData loadUsernameAndPasswordToHash() {
+    private void register() {
+        initPlayerService();
+        if(isLogged){
+            System.out.println("can not register while logged in");
+        }else {
+            boolean doAgain=true;
+            UserData userData = getDataToRegistration();
+            if(playerService.register(userData)){
+                System.out.println("registration success, now you can log in to new account");
+            }else{
+                System.out.println("registration failed, try another username");
+            }
+        }
+    }
+
+    private UserData getDataToRegistration() {
+        boolean doAgain=true;
         UserData userData = new UserData();
-        System.out.println("insert username:");
-        userData.setUsername(scanner.nextLine());
-        System.out.println("insert password");
-        userData.setPassword(scanner.nextLine());
+        while (doAgain){
+            userData = getUsernameAndPasswordToHash();
+            System.out.println("insert password again:");
+            String s = scanner.nextLine();
+            if(!s.equals(userData.getPassword())){
+                System.out.println("passwords are different");
+            }else {
+                doAgain = false;
+            }
+        }
         return userData;
     }
 
+    private void initPlayerService(){
+        if(playerService==null){
+            playerService = new PlayerService();
+        }
+    }
+
+    private UserData getUsernameAndPasswordToHash() {
+        UserData userData = new UserData();
+        System.out.println("insert username:");
+        userData.setUsername(scanner.nextLine());
+        System.out.println("insert password:");
+        userData.setPassword(scanner.nextLine());
+        return userData;
+    }
 
 }
