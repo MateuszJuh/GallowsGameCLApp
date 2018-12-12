@@ -21,14 +21,15 @@ public class ApiConnector {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(method);
             if(method!="GET" && requestData.isPresent()){
-                connection.setRequestProperty("Content-Type", "application-json");
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setDoOutput(true);
                 OutputStream output = connection.getOutputStream();
-                output.write(requestData.toString().getBytes(StandardCharsets.UTF_8));
+                output.write(requestData.get().toString().getBytes(StandardCharsets.UTF_8));
                 output.close();
             }
             int connCode = connection.getResponseCode();
             if (connCode != 200) {
-                throw new APIConnectionError("Problem with connection, code: " + connCode);
+                throw new APIConnectionError("Problem with connection, code: " + connCode + "msg: " + connection.getResponseMessage());
             }
             BufferedReader inputReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line;
