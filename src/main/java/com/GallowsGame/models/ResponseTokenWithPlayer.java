@@ -1,10 +1,9 @@
 package com.GallowsGame.models;
 
-import java.util.Optional;
-
 public class ResponseTokenWithPlayer {
     private boolean isOperationSuccessful;
-    private Optional<Player> playerDto;
+    private Player playerDto;
+    private String message;
 
     public ResponseTokenWithPlayer() {
     }
@@ -17,11 +16,19 @@ public class ResponseTokenWithPlayer {
         isOperationSuccessful = operationSuccessful;
     }
 
-    public Optional<Player> getPlayerDto() {
+    public Player getPlayerDto() {
         return playerDto;
     }
 
-    public void setPlayerDto(Optional<Player> playerDto) {
+    public void setPlayerDto(Player playerDto) {
         this.playerDto = playerDto;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

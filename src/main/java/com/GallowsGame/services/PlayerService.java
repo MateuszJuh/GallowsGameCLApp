@@ -1,6 +1,5 @@
 package com.GallowsGame.services;
 
-import com.GallowsGame.exceptions.PlayerNotFoundException;
 import com.GallowsGame.models.Player;
 import com.GallowsGame.models.RequestMethod;
 import com.GallowsGame.models.ResponseTokenWithPlayer;
@@ -27,12 +26,8 @@ public class PlayerService {//TODO PlayerService
         String response = apiConnector.getDataFromUrl(API_BASE_URL + "login", RequestMethod.POST.get(), Optional.of(jsonObject));
         ResponseTokenWithPlayer responseTokenWithPlayer = readResponse(response);
         if(responseTokenWithPlayer.isOperationSuccessful()){
-            if(responseTokenWithPlayer.getPlayerDto().isPresent()){
-                player = responseTokenWithPlayer.getPlayerDto().get();
+                player = responseTokenWithPlayer.getPlayerDto();
                 return true;
-            }else {
-                throw new PlayerNotFoundException("Player from response not found, try to login again");
-            }
         }else {
             return false;
         }
@@ -43,13 +38,10 @@ public class PlayerService {//TODO PlayerService
         String response = apiConnector.getDataFromUrl(API_BASE_URL + "register", RequestMethod.POST.get(), Optional.of(jsonObject));
         ResponseTokenWithPlayer responseTokenWithPlayer = readResponse(response);
         if(responseTokenWithPlayer.isOperationSuccessful()){
-            if(responseTokenWithPlayer.getPlayerDto().isPresent()){
-                System.out.println(responseTokenWithPlayer.getPlayerDto().get().getUsername() + " registered");
-            }else {
-                throw new PlayerNotFoundException("incomplete response, registration may be invalid");
-            }
+                System.out.println(responseTokenWithPlayer.getPlayerDto().getUsername() + " registered");
             return true;
         }else {
+            System.out.println(responseTokenWithPlayer.getMessage());
             return false;
         }
     }
@@ -57,7 +49,6 @@ public class PlayerService {//TODO PlayerService
     public void increaseScore(UserData userData) {
 
     }
-
     private JSONObject generateToken(UserData userData) {
         String userDataString = userData.getUsername() + ":" + userData.getPassword();
         byte[] encode = Base64.getEncoder().encode(userDataString.getBytes());

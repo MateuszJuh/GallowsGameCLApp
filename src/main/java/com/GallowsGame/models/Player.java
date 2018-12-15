@@ -1,6 +1,7 @@
 package com.GallowsGame.models;
 
 public class Player {
+    private long id;
     private int Score;
     private String username;
     private String passwordHash;
@@ -12,6 +13,14 @@ public class Player {
         Score = score;
         this.username = username;
         this.passwordHash = passwordHash;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public int getScore() {
