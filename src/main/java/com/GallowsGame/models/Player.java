@@ -4,15 +4,13 @@ public class Player {
     private long id;
     private int Score;
     private String username;
-    private String passwordHash;
 
     public Player() {
     }
 
-    public Player(int score, String username, String passwordHash) {
+    public Player(int score, String username) {
         Score = score;
         this.username = username;
-        this.passwordHash = passwordHash;
     }
 
     public long getId() {
@@ -39,11 +37,4 @@ public class Player {
         this.username = username;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
 }

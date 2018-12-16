@@ -2,7 +2,6 @@ package com.GallowsGame.commandLineInterface;
 
 import com.GallowsGame.game.GallowsGame;
 import com.GallowsGame.models.GameState;
-import com.GallowsGame.models.Player;
 import com.GallowsGame.models.UserData;
 import com.GallowsGame.services.PlayerService;
 
@@ -54,8 +53,15 @@ public class CommandLineInterface {
         }
         if(gallowsGame.getGameState() == GameState.WON){
             System.out.println("Win");
+            increaseScoreIfLogged();
         }else {
             System.out.println("lost");
+        }
+    }
+
+    private void increaseScoreIfLogged() {
+        if(isLogged){
+            playerService.increaseScore();
         }
     }
 

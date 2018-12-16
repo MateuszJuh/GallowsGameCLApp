@@ -12,7 +12,7 @@ public class GallowsGame {
 
     public GallowsGame() {
         wordService = new WordService();
-        attemptsLeft = 10;
+        attemptsLeft = 100;
         gameState = GameState.IN_PROGRESS;
     }
 

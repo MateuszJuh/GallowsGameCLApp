@@ -11,11 +11,12 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.Optional;
 
-public class PlayerService {//TODO PlayerService
+public class PlayerService {
 
     private Player player;
     private final String API_BASE_URL = "http://localhost:8080/GallowsGameAPI-1.0-SNAPSHOT/words/player/";
     private ApiConnector apiConnector;
+    private UserData userData;
 
     public PlayerService() {
         apiConnector = new ApiConnector();
@@ -27,6 +28,7 @@ public class PlayerService {//TODO PlayerService
         ResponseTokenWithPlayer responseTokenWithPlayer = readResponse(response);
         if(responseTokenWithPlayer.isOperationSuccessful()){
                 player = responseTokenWithPlayer.getPlayerDto();
+                this.userData = userData;
                 return true;
         }else {
             return false;
@@ -46,9 +48,17 @@ public class PlayerService {//TODO PlayerService
         }
     }
 
-    public void increaseScore(UserData userData) {
-
+    public void increaseScore() {
+        String response = apiConnector.getDataFromUrl(API_BASE_URL + "increase", "POST", Optional.of(generateToken(this.userData)));
+        ResponseTokenWithPlayer responseTokenWithPlayer = readResponse(response);
+        if(responseTokenWithPlayer.isOperationSuccessful()){
+            player = responseTokenWithPlayer.getPlayerDto();
+            System.out.println(player.getUsername() + " score increased to: " + player.getScore());
+        }else {
+            System.out.println(responseTokenWithPlayer.getMessage());
+        }
     }
+
     private JSONObject generateToken(UserData userData) {
         String userDataString = userData.getUsername() + ":" + userData.getPassword();
         byte[] encode = Base64.getEncoder().encode(userDataString.getBytes());
